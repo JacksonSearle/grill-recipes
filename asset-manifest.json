@@ -1,8 +1,8 @@
 {
   "files": {
-    "main.js": "/your-repo-name/static/js/main.63459e08.js",
-    "index.html": "/your-repo-name/index.html",
-    "main.63459e08.js.map": "/your-repo-name/static/js/main.63459e08.js.map"
+    "main.js": "/grill-recipes/static/js/main.63459e08.js",
+    "index.html": "/grill-recipes/index.html",
+    "main.63459e08.js.map": "/grill-recipes/static/js/main.63459e08.js.map"
   },
   "entrypoints": [
     "static/js/main.63459e08.js"
