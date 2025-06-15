@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
-import recipes from './recipes';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const [recipe, setRecipe] = useState(null);
+  const [recipes, setRecipes] = useState([]);
+  const [selected, setSelected] = useState(null);
+
+  useEffect(() => {
+    fetch('/recipes.json')
+      .then(res => res.json())
+      .then(data => setRecipes(data));
+  }, []);
 
   const getRandomRecipe = () => {
-    const randomIndex = Math.floor(Math.random() * recipes.length);
-    setRecipe(recipes[randomIndex]);
+    const random = recipes[Math.floor(Math.random() * recipes.length)];
+    setSelected(random);
   };
 
   return (
     <div style={styles.container}>
-      <h1 style={styles.title}>Random Grill & Smoking Recipes</h1>
-      <button onClick={getRandomRecipe} style={styles.button}>
-        Get a Recipe
-      </button>
+      <h1>Random Grill & Smoking Recipe</h1>
+      <button onClick={getRandomRecipe} style={styles.button}>Get a Recipe</button>
 
-      {recipe && (
-        <div style={styles.recipeCard}>
-          <h2>{recipe.name}</h2>
-          <p><strong>Description:</strong> {recipe.description}</p>
-          <p><strong>Cook Time:</strong> {recipe.cookTime}</p>
-          <p><strong>Temperature:</strong> {recipe.temperature}</p>
+      {selected && (
+        <div style={styles.card}>
+          <h2>{selected.title}</h2>
+          <img src={selected.img} alt={selected.title} style={{ maxWidth: '100%', borderRadius: '8px' }} />
+          <p><a href={selected.url} target="_blank" rel="noopener noreferrer">View Full Recipe</a></p>
         </div>
       )}
     </div>
@@ -29,35 +32,9 @@ function App() {
 }
 
 const styles = {
-  container: {
-    fontFamily: 'Arial, sans-serif',
-    textAlign: 'center',
-    padding: '50px',
-    backgroundColor: '#f5f5f5',
-    minHeight: '100vh',
-  },
-  title: {
-    fontSize: '2.5rem',
-    marginBottom: '20px',
-  },
-  button: {
-    fontSize: '1.2rem',
-    padding: '10px 20px',
-    cursor: 'pointer',
-    backgroundColor: '#ff5722',
-    color: '#fff',
-    border: 'none',
-    borderRadius: '8px',
-  },
-  recipeCard: {
-    marginTop: '30px',
-    padding: '20px',
-    backgroundColor: '#fff',
-    borderRadius: '8px',
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
-    display: 'inline-block',
-    textAlign: 'left',
-  },
+  container: { fontFamily: 'Arial', textAlign: 'center', padding: '50px', background: '#f5f5f5', minHeight: '100vh' },
+  button: { marginTop: 20, fontSize: '1.2rem', padding: '10px 20px', cursor: 'pointer', backgroundColor: '#ff5722', color: '#fff', border: 'none', borderRadius: '8px' },
+  card: { marginTop: 30, padding: 20, background: '#fff', borderRadius: 8, boxShadow: '0 4px 6px rgba(0,0,0,0.1)', display: 'inline-block', textAlign: 'left' }
 };
 
 export default App;
